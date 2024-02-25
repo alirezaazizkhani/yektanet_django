@@ -1,5 +1,59 @@
-<form action = "" method = "post"> 
-    {% csrf_token %} 
-    {{form }} 
-    <input type="submit" value=Submit"> 
-</form> 
+<style>
+    .my-form {
+        width: 50%;
+        margin: auto;
+    }
+
+    .form-field {
+        margin-bottom: 15px;
+    }
+
+    label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    input, select, textarea {
+        width: 100%;
+        padding: 8px;
+        box-sizing: border-box;
+    }
+
+    input[type="submit"] {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+</style>
+
+<body>
+    <form action="" method="post" class="my-form">
+    {% csrf_token %}
+    
+    <div class="form-field">
+        <label for="{{ form.Title.id_for_label }}">Title:</label>
+        {{ form.Title }}
+    </div>
+    
+    <div class="form-field">
+        <label for="{{ form.imgUrl.id_for_label }}">Image URL:</label>
+        {{ form.imgUrl }}
+    </div>
+    
+    <div class="form-field">
+        <label for="{{ form.Link.id_for_label }}">Link:</label>
+        {{ form.Link }}
+    </div>
+    
+    <div class="form-field">
+        <label for="{{ form.advertiser.id_for_label }}">Advertiser:</label>
+        {{ form.advertiser }}
+    </div>
+    
+    <input type="submit" value="Submit">
+    </form>
+</body>

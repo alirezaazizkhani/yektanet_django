@@ -35,7 +35,7 @@ def add_ads(request):
         if form.is_valid():
             form.save()
             return redirect(main)
-    else:
+    else:        
         context = {
             'form': InputAd()
         }

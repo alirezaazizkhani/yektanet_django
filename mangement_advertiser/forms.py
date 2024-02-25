@@ -5,6 +5,5 @@ from .models import Ad
 class InputAd(forms.ModelForm):
     class Meta:
         model = Ad
-        fields = ["ID", "Title", "imgUrl", "Link", "advertiser"]
-        
+        fields = [ "Title", "imgUrl", "Link", "advertiser"]
 
