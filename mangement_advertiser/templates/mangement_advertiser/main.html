@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .add-ad-button {
+        margin: 20px;
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: #007BFF;
+        color: #fff;
+        text-decoration: none;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        }
+
+        .add-ad-button:hover {
+        background-color: #0056b3;
+        }
+
+        .advertiser-container {
+        margin-bottom: 20px;
+        border: 1px solid black;
+        padding: 10px;
+        }
+    
+        .advertiser-name {
+        font-size: 18px;
+        margin-bottom: 10px;
+        }
+    
+        .advertiser-row {
+        display: flex;
+        flex-wrap: wrap;
+        }
+    
+        .ad {
+        margin: 10px;
+        text-align: center;
+        }
+
+    </style>
+    <title>Your Page Title</title>
+</head>
+<body>
+    <a href="http://127.0.0.1:8000/add_ads" class="add-ad-button">Add Advertisement</a>
+
+    {% if data %}
+            {% for advertiser in data %}
+            <div class="advertiser-container">
+                <div class="advertiser-name">{{ advertiser.advertiser }}</div>
+
+                <div class="advertiser-row">
+                    {% for ad in advertiser.ads %}
+                    <div class="ad">
+                        <img src="{{ ad.imgUrl }}" alt="{{ ad.Title }}" width="300" height="200"">
+                        <li><a href="/ad/{{ ad.ID }}/">{{ ad.Title  }}</a></li>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>      
+            {% endfor %}
+    {% else %}
+        <p>No polls are available.</p>
+    {% endif %}
+</body>
