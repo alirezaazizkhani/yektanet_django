@@ -2,7 +2,7 @@ from django.http import Http404
 from django.shortcuts import render, redirect
 
 from .models import Ad, Advertiser
-
+from .forms import InputAd
 
 def main(request):
     advertiseres = Advertiser.objects.all()
@@ -29,5 +29,14 @@ def ad_handler(request, ad_id):
     return redirect(ad.Link)
 
 
-def add_ads(request, ad_id):
-    pass
+def add_ads(request):
+    if(request.method == 'POST'):
+        form = InputAd(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect(main)
+    else:
+        context = {
+            'form': InputAd()
+        }
+        return render(request, "mangement_advertiser/add_ad.html", context)
