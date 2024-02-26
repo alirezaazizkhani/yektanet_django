@@ -1,4 +1,5 @@
 from django.db import models
+import datetime
 
 class Advertiser(models.Model):
     id = models.IntegerField(primary_key=True)
@@ -17,23 +18,15 @@ class Ad(models.Model):
     
     def __str__(self):
         return self.title
-    
-    def inc_clicks(self):
-        self.clicks += 1
-        self.advertiser_id.clicks += 1
-    
-    def inc_views(self):
-        self.views += 1
-        self.advertiser.views += 1
 
 class Click(models.Model):
     id = models.IntegerField(primary_key=True)
     ad_id = models.ForeignKey('Ad', on_delete=models.PROTECT)
-    user_ip = models.IntegerField()
-    click_time = models.DateTimeField(auto_now=True)
+    user_ip = models.GenericIPAddressField()
+    click_time = models.DateTimeField(default=datetime.datetime.now)
 
 class View(models.Model):
     id = models.IntegerField(primary_key=True)
     ad_id = models.ForeignKey('Ad', on_delete=models.PROTECT)
-    user_ip = models.IntegerField()
-    click_time = models.DateTimeField(auto_now=True)
+    user_ip = models.GenericIPAddressField()
+    click_time = models.DateTimeField(default=datetime.datetime.now)
