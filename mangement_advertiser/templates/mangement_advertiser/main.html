@@ -50,13 +50,13 @@
     {% if data %}
             {% for advertiser in data %}
             <div class="advertiser-container">
-                <div class="advertiser-name">{{ advertiser.advertiser }}</div>
+                <div class="advertiser_name">{{ advertiser.advertiser }}</div>
 
                 <div class="advertiser-row">
                     {% for ad in advertiser.ads %}
                     <div class="ad">
-                        <img src="{{ ad.imgUrl }}" alt="{{ ad.Title }}" width="300" height="200"">
-                        <li><a href="/ad/{{ ad.ID }}/">{{ ad.Title  }}</a></li>
+                        <img src="{{ ad.img_url }}" alt="{{ ad.title }}" width="300" height="200"">
+                        <li><a href="/ad/{{ ad.id }}/">{{ ad.title  }}</a></li>
                     </div>
                     {% endfor %}
                 </div>
