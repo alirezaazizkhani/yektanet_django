@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Your Template</title>
+    <style>
+        table {
+            width: 50%;
+            border-collapse: collapse;
+            margin: 20px;
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+    </head>
+<body>
+    <h1>Click Data</h1>
+    <table>
+        <tr>
+            <th>Click Count</th>
+            <th>Hour</th>
+        </tr>
+        {% for click in context.clicks_by_hour %}
+            <tr>
+                <td>{{ click.click_count }}</td>
+                <td>{{ click.click_time__hour }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <h1>View Data</h1>
+    <table>
+        <tr>
+            <th>View Count</th>
+            <th>Hour</th>
+        </tr>
+        {% for view in context.views_by_hour %}
+            <tr>
+                <td>{{ view.view_count }}</td>
+                <td>{{ view.view_time__hour }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <h1>Click to View ratio : {{ context.click_to_view_ratio }}</h1>
+
+    <h1>Click to View ratio by hour </h1>
+    <table>
+        <tr>
+            <th>Ratio </th>
+            <th>Hour</th>
+        </tr>
+        {% for ratio in context.click_to_view_ratio_by_hour %}
+            <tr>
+                <td>{{ ratio.ratio }}</td>
+                <td>{{ ratio.time }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <h1>The average difference between view and click time : {{ context.average_difference_between_view_and_click_time }} Second.</h1>
+</body>
+</html>

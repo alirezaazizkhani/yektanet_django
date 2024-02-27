@@ -29,4 +29,4 @@ class View(models.Model):
     id = models.IntegerField(primary_key=True)
     ad_id = models.ForeignKey('Ad', on_delete=models.PROTECT)
     user_ip = models.GenericIPAddressField()
-    click_time = models.DateTimeField(default=datetime.datetime.now)
+    view_time = models.DateTimeField(default=datetime.datetime.now)
