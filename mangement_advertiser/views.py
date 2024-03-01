@@ -3,6 +3,8 @@ from django.shortcuts import render
 from django.views.generic import TemplateView
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.permissions import IsAuthenticated
 
 from .models import Ad, Advertiser, Click, View
 from .serializers import AdSerializer, CreateAdSerializer, AdveriserSerializer
@@ -10,6 +12,8 @@ from .serializers import AdSerializer, CreateAdSerializer, AdveriserSerializer
 class AdvertiserView(ModelViewSet):
     serializer_class = AdveriserSerializer
     queryset = Advertiser.objects.all()
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def retrieve(self, request, *args, **kwargs):
         pk = self.kwargs.get('pk')
@@ -44,6 +48,9 @@ class AdvertiserView(ModelViewSet):
 class AdView(ModelViewSet):
     serializer_class = CreateAdSerializer
     queryset = Ad.objects.all()
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    permission_classes = [IsAuthenticated]
+
 
     def retrieve(self, request, *args, **kwargs):
         pk = self.kwargs.get('pk')
