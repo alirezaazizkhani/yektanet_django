@@ -2,31 +2,14 @@ from django.db.models import Count
 from django.shortcuts import render
 from django.views.generic import TemplateView
 from rest_framework.response import Response
-from rest_framework.views import APIView
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, CreateAPIView, ListAPIView
+from rest_framework.viewsets import ModelViewSet
 
 from .models import Ad, Advertiser, Click, View
 from .serializers import AdSerializer, CreateAdSerializer, AdveriserSerializer
 
-class ListAdvertiserView(ListCreateAPIView):
-    queryset = Advertiser.objects.all()
+class AdvertiserView(ModelViewSet):
     serializer_class = AdveriserSerializer
-
-    def get(self, request, *args, **kwargs):
-        advertiseres = self.get_queryset()
-        serializer = AdveriserSerializer(advertiseres, many=True)
-        data = []
-        for advertiser in serializer.data:
-            ads = Ad.objects.filter(advertiser_id__id = advertiser['id'] )
-            ads_serializer = AdSerializer(ads, many=True)
-            advertiser['ads'] = ads_serializer.data
-            data.append(advertiser)
-        return Response(data)
-
-
-class DetailAdvertiserView(RetrieveUpdateDestroyAPIView):
     queryset = Advertiser.objects.all()
-    serializer_class = AdveriserSerializer
 
     def retrieve(self, request, *args, **kwargs):
         pk = self.kwargs.get('pk')
@@ -39,28 +22,28 @@ class DetailAdvertiserView(RetrieveUpdateDestroyAPIView):
             return Response(data)
         except:
             return Response({"errors": "Not found"})
-
-class ListAdView(ListAPIView):
-    queryset = Ad.objects.all()
-    serializer_class = AdSerializer
-    def get(self, request, *args, **kwargs):
-        ads = self.get_queryset()
-        serializer = self.serializer_class(ads, many=True)
+    def list(self, request, *args, **kwargs):
+        advertiseres = self.get_queryset()
+        serializer = AdveriserSerializer(advertiseres, many=True)
         data = []
-        for ad in serializer.data:
-            advertiser = Advertiser.objects.filter(id=ad['advertiser'])
-            advertiser_serializer = AdveriserSerializer(advertiser, many=True)
-            ad['advertiser'] = advertiser_serializer.data
-            data.append(ad)
-        return Response(data)        
+        for advertiser in serializer.data:
+            ads = Ad.objects.filter(advertiser_id__id = advertiser['id'] )
+            ads_serializer = AdSerializer(ads, many=True)
+            advertiser['ads'] = ads_serializer.data
+            data.append(advertiser)
+        return Response(data)
+    
+    def create(self, request, *args, **kwargs):
+        return super().create(request, *args, **kwargs)
+    def update(self, request, *args, **kwargs):
+        return super().update(request, *args, **kwargs)
+    def destroy(self, request, *args, **kwargs):
+        return super().destroy(request, *args, **kwargs)
 
-class CreateAdView(CreateAPIView):
-    queryset = Ad.objects.all()
-    serializer_class = CreateAdSerializer
 
-class DetailAdView(RetrieveUpdateDestroyAPIView):
-    queryset = Ad.objects.all()
+class AdView(ModelViewSet):
     serializer_class = CreateAdSerializer
+    queryset = Ad.objects.all()
 
     def retrieve(self, request, *args, **kwargs):
         pk = self.kwargs.get('pk')
@@ -73,10 +56,8 @@ class DetailAdView(RetrieveUpdateDestroyAPIView):
             return Response(data)
         except:
             return Response({"errors": "Not found"})
-
-
-class AdView(APIView):
-    def get(self, request):
+        
+    def list(self, request, *args, **kwargs):
         ads = Ad.objects.all()
         serializer = AdSerializer(ads, many=True)
         data = []
@@ -86,7 +67,13 @@ class AdView(APIView):
             ad['advertiser'] = advertiser_serializer.data
             data.append(ad)
         return Response(serializer.data)
-
+    
+    def create(self, request, *args, **kwargs):
+        return super().create(request, *args, **kwargs)
+    def update(self, request, *args, **kwargs):
+        return super().update(request, *args, **kwargs)
+    def destroy(self, request, *args, **kwargs):
+        return super().destroy(request, *args, **kwargs)
 
 class AdReportsView(TemplateView):
     template_name = 'mangement_advertiser/advertising_report.html'

@@ -2,10 +2,9 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('advertiseres/', views.ListAdvertiserView.as_view()),
-    path('advertiseres/<int:pk>/', views.DetailAdvertiserView.as_view()),
-    path('ads/', views.ListAdView.as_view()),
-    path('ads/create/', views.CreateAdView.as_view()),
-    path('ads/<int:pk>/', views.DetailAdView.as_view()),
+    path('advertiseres/', views.AdvertiserView.as_view({'get': 'list', 'post':'create'})),
+    path('advertiseres/<int:pk>/', views.AdvertiserView.as_view({'get': 'retrieve', 'delete': 'destroy', 'put':'update'})),
+    path('ads/', views.AdView.as_view({'get': 'list', 'post':'create'})),
+    path('ads/<int:pk>/', views.AdView.as_view({'get': 'retrieve', 'delete': 'destroy', 'put':'update'})),
     path('report/', views.AdReportsView.as_view(), name='report'),
 ]
