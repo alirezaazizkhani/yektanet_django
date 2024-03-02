@@ -31,3 +31,9 @@ class View(models.Model):
     ad_id = models.ForeignKey('Ad', on_delete=models.PROTECT)
     user_ip = models.GenericIPAddressField()
     view_time = models.DateTimeField(default=datetime.datetime.now)
+
+class Saver(models.Model):
+    count = models.IntegerField()
+
+    def __str__(self):
+        return self.count
