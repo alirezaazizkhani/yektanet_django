@@ -34,6 +34,7 @@ class View(models.Model):
 
 class Saver(models.Model):
     count = models.IntegerField()
+    type = models.CharField(max_length=10)
 
     def __str__(self):
         return self.count

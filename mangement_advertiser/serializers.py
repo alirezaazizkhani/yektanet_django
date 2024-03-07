@@ -1,18 +1,20 @@
 from rest_framework import serializers
 from .models import Ad, Advertiser
 
-class CreateAdSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Ad
-        fields = ['title', 'img_url', 'link', 'advertiser']
 
 class AdveriserSerializer(serializers.ModelSerializer):
+    ads = serializers.SerializerMethodField()
     class Meta:
         model = Advertiser
-        fields = '__all__'
+        fields = ['id','name','ads']
+
+    def get_ads(self, obj):
+        result  = Advertiser.objects.filter(ad=obj.id).values('ad__id','ad__title')
+        return result
 
 class AdSerializer(serializers.ModelSerializer):
-    advertiser = Advertiser()
     class Meta:
         model = Ad
-        fields = '__all__'
+        fields = ['id', 'title', 'img_url', 'link', 'advertiser']
+    
+
